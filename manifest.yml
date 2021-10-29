@@ -1,0 +1,18 @@
+applications:
+- name: cloud-movie-biz1
+  memory: 1G
+  instances: 1
+  random-route: false
+#  path: ./defaultServer
+  path: ./defaultServer/cloud-movie-0.0.1-SNAPSHOT.war
+#  path: ./target/cloud-movie-0.0.1-SNAPSHOT.war.original
+  env:
+    SPRING_PROFILES_ACTIVE: dev
+  services:
+    - elk-syslog-service
+    - redis-good-service
+    - Auto-Scaling Dedicated-of
+    - IBM Secure Gateway Dedicated-a3
+#     - cloud-kks-syslog-svc
+#    - cloud-movie-db
+#    - cloud-movie-redis

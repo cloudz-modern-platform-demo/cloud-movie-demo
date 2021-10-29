@@ -1,0 +1,21 @@
+<server>
+    <featureManager>
+        <feature>beanValidation-1.1</feature>
+        <feature>cdi-1.2</feature>
+        <feature>ejbLite-3.2</feature>
+        <feature>el-3.0</feature>
+        <feature>jaxrs-2.0</feature>
+        <feature>jdbc-4.1</feature>
+        <feature>jndi-1.0</feature>
+        <feature>jpa-2.1</feature>
+        <feature>jsf-2.2</feature>
+        <feature>jsonp-1.0</feature>
+        <feature>jsp-2.3</feature>
+        <feature>managedBeans-1.0</feature>
+        <feature>servlet-3.1</feature>
+        <feature>websocket-1.1</feature>
+    </featureManager>
+    <application name="myapp" location="cloud-movie-0.0.1-SNAPSHOT.war" type="war" context-root="/"/>
+    <webContainer deferServletLoad="false" /> <!-- Container 즉시 로딩(Liberty load-on-start) -->
+    <cdi12 enableImplicitBeanArchives='false'/>
+</server>

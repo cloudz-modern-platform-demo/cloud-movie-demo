@@ -1,0 +1,19 @@
+###########################
+# MariaDB
+###########################
+$ helm install --name bk-mariadb --set mariadbRootPassword=Zcp_1234,mariadbUser=zcp-user,mariadbPassword=Zcp_1234,mariadbDatabase=zcp-database,persistence.enabled=true,persistence.storageClass=standard,metrics.enabled=true stable/mariadb --namespace=bk-service
+
+# for helm3
+$ helm3 repo add bitnami https://charts.bitnami.com/bitnami
+$ helm3 install bk-mariadb bitnami/mariadb --namespace=cloud-movie-prod --set auth.rootPassword=Zcp_1234,auth.username=zcp-user,auth.password=Zcp_1234,auth.database=zcp-database,primary.persistence.storageClass=managed-standard,metrics.enabled=true
+
+
+
+###########################
+# Redis
+###########################
+$ helm install --name bk-redis --set redisPassword=Zcp_1234,persistence.enabled=true,persistence.storageClass=standard,metrics.enabled=true stable/redis --namespace=bk-service
+
+# for helm3
+$ helm repo add bitnami https://charts.bitnami.com/bitnami
+$ helm3 install bk-redis bitnami/redis --namespace=cloud-movie-prod --set metrics.enabled=true,password=Zcp_1234,master.persistence.enabled=false,slave.persistence.enabled=false

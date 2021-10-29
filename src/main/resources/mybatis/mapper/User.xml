@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.skcc.authentication.dao.UserMapper">
+  <resultMap type="User" id="userDetail">
+    <result property="username" column="username"/>
+    <result property="password" column="password"/>
+    <result property="name" column="name"/>
+    <result property="accountNonExpired" column="account_non_expired"/>
+    <result property="accountNonLocked" column="account_non_locked"/>
+    <result property="credentialsNonExpired" column="credentials_non_expired"/>
+    <result property="enabled" column="enabled"/>
+    <collection property="authorities" select="selectAuthorities" column="username" ofType="org.springframework.security.core.authority.SimpleGrantedAuthority"/>
+  </resultMap>
+	
+  <select id="selectUsers" resultMap="userDetail"> 
+    SELECT * 
+      FROM user 
+  </select>
+
+	<select id="selectUser" parameterType="String" resultMap="userDetail"> 
+    SELECT * 
+      FROM user 
+     WHERE username = #{username} 
+  </select>
+  
+  <insert id="insertUser" parameterType="User">
+    INSERT INTO user (username, password, name, account_non_expired, account_non_locked, credentials_non_expired, enabled) 
+    VALUES ( #{username}, #{password}, #{name}, #{accountNonExpired}, #{accountNonLocked}, #{credentialsNonExpired}, #{enabled})
+  </insert>
+  
+  <insert id="insertAuthority" parameterType="User">
+    INSERT INTO authority (username, authority_name) VALUES (#{username}, #{authority})
+  </insert>
+  
+  <update id="updateUser" parameterType="User">
+    UPDATE user
+    <trim prefix="SET" suffixOverrides=",">
+      <if test="password != null">password = #{password},</if>
+      <if test="name != null">name = #{name},</if>
+      <if test="accountNonExpired != null">account_non_expired = #{accountNonExpired},</if>
+      <if test="accountNonLocked != null">account_non_locked = #{accountNonLocked},</if>
+      <if test="credentialsNonExpired != null">credentials_non_expired = #{credentialsNonExpired},</if>
+      <if test="enabled != null">enabled = #{enabled},</if>
+    </trim>
+     WHERE username = #{username} 
+  </update>
+  
+  <delete id="deleteUser" parameterType="String">
+    DELETE 
+      FROM user 
+     WHERE username = #{username}
+  </delete>
+	
+  <delete id="deleteAuthorities" parameterType="String">
+    DELETE 
+      FROM authority 
+     WHERE username = #{username}
+  </delete>
+
+	<select id="selectAuthorities" parameterType="String" resultType="org.springframework.security.core.authority.SimpleGrantedAuthority">
+		SELECT authority_name 
+		  FROM authority 
+		 WHERE username = #{username}
+	</select>
+</mapper>

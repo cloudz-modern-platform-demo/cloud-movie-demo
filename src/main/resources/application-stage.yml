@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: cloud-movie-demo-local
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+        
+  datasource:
+    initialize: true
+#    platform: h2
+#    url: jdbc:h2:mem:testdb;
+#    username: sa
+#    password: null
+    platform: mariadb
+    url: jdbc:mariadb://${MARIADB_HOST}:3306/zcp-database
+    username: ${MARIADB_USER}
+    password: ${MARIADB_PASSWORD}
+
+  session:
+    store-type: redis
+  redis:
+#    host: 169.56.83.54
+#    port: 30011
+    host: ${REDIS_HOST}
+    port: 6379
+    password: ${REDIS_PASSWORD}
+#    sentinel:
+#      master: mymaster
+#      nodes: 169.56.102.115:16379,169.56.102.120:16379,169.56.102.125:16379
+#    spring.redis.pool.max-active: 8 
+    # Max number of connections that can be allocated by the pool at a given time. Use a negative value for no limit.
+#    spring.redis.pool.max-idle: 8 
+    # Max number of "idle" connections in the pool. Use a negative value to indicate an unlimited number of idle connections.
+#    spring.redis.pool.max-wait: -1 
+    # Maximum amount of time (in milliseconds) a connection allocation should block before throwing an exception when the pool is exhausted. Use a negative value to block indefinitely.
+#    spring.redis.pool.min-idle: 0   
+    # Target for the minimum number of idle connections to maintain in the pool. This setting only has an effect if it is positive.   
+
+server:
+  port: 8080
+  context-path: /
+#  context-path: /cloud-movie
+    
+logging:
+  level:
+    root: INFO
+    com.skcc: TRACE
+    org.springframework.data.redis: INFO
+
+    

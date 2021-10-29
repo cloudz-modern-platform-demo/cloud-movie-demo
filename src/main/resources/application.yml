@@ -1,0 +1,70 @@
+#spring:
+#  thymeleaf:
+#    cache: false
+
+security:
+  basic:
+    enabled: false    
+#  user:
+#    name: kilsoo
+#    password: 1234
+#    role:
+#    - ACTUATOR
+
+server:
+  session:
+    timeout: 600
+    
+mybatis:
+  mapper-locations:
+  - mybatis/mapper/**/*.xml
+  type-handlers-package: com.skcc.authentication.dao.handler
+  type-aliases-package: com.skcc.authentication.vo, com.skcc.content.vo
+
+#endpoints:
+#  actuator:
+#    enabled: true
+#    path: actuator
+#  enabled: true
+#  info:
+#    enabled: true
+#  metrics:
+#    enabled: true
+#  health:
+#    enabled: true
+#  heapdump:
+#    enabled: true
+#  hypermedia:
+#    enabled: true
+ 
+management:
+  port: 8090
+  security:
+    enabled: false
+    roles:
+    - ADMIN
+  context-path: /actuator
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+#  endpoint:
+#    health:
+#      show-details: always
+
+#  health:
+#    defaults:
+#      enabled: true
+#    redis:
+#      enabled: false
+#  metrics:
+#    use-global-registry: false
+#    distribution:
+#      sla:
+#        http:
+#          server:
+#            requests: 100ms, 200ms, 400ms
+#      percentiles-histogram:
+#        http:
+#          server:
+#            requests: true

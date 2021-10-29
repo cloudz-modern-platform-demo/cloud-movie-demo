@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: cloud-movie-demo-dev
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+        
+  datasource:
+    initialize: true
+    platform: h2
+    url: jdbc:h2:mem:testdb;
+    username: sa
+    password: null
+  session:
+    store-type: hash-map
+#    store-type: redis
+#  redis:
+#    host: ${vcap.services.redis-cluster-service.credentials.host}
+#    port: ${vcap.services.redis-cluster-service.credentials.port}
+#    password: ${vcap.services.redis-cluster-service.credentials.password}
+
+#    password: redis1234
+#    sentinel:
+#      master: mymaster
+#      nodes: 169.56.68.114:16379,169.56.68.119:16379,169.56.66.35:16379
+      
+
+server:
+  port: 80
+    
+logging:
+  level:
+    root: INFO
+    com.skcc: TRACE
+    org.springframework.data.redis: INFO

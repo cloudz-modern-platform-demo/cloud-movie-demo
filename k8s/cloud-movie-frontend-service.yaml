@@ -1,0 +1,115 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: cloud-movie-frontend-stable
+  namespace: zcp-demo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        svc: cloud-movie-frontend
+        stack: stable
+    spec:
+      containers:
+      - name: cloud-movie-frontend
+        image: kilsoo75/cloud-movie:4.0
+        imagePullPolicy: Always
+        ports:
+        - name: frontend-port
+          containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: cloud-movie-bk-config
+        env:
+          - name: REDIS_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: cloud-movie-bk-secret
+                key: REDIS_PASSWORD
+          - name: MARIADB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: cloud-movie-bk-secret
+                key: MARIADB_PASSWORD
+      nodeSelector:
+        beta.kubernetes.io/os: linux
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: cloud-movie-frontend-new
+  namespace: zcp-demo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        svc: cloud-movie-frontend
+        stack: canary
+    spec:
+      containers:
+      - name: cloud-movie-frontend
+        image: kilsoo75/cloud-movie:5.0
+        imagePullPolicy: Always
+        ports:
+        - name: frontend-port
+          containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: cloud-movie-bk-config
+        env:
+          - name: REDIS_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: cloud-movie-bk-secret
+                key: REDIS_PASSWORD
+          - name: MARIADB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: cloud-movie-bk-secret
+                key: MARIADB_PASSWORD
+        resources:
+          requests:
+            memory: "1024Mi"
+            cpu: "500m"
+          limits:
+            memory: "1536Mi"
+            cpu: "800m"
+      nodeSelector:
+        beta.kubernetes.io/os: linux
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloud-movie-frontend-canary
+  labels:
+    name: cloud-movie-frontend-canary
+  namespace: zcp-demo
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: "frontend-port"
+    protocol: TCP
+    name: http
+  selector:
+    svc: cloud-movie-frontend
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloud-movie-frontend-new
+  labels:
+    name: cloud-movie-frontend-new
+  namespace: zcp-demo
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: "frontend-port"
+    protocol: TCP
+    name: http
+  selector:
+    svc: cloud-movie-frontend
+    stack: canary
