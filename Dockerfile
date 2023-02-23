@@ -1,5 +1,5 @@
-FROM java:8
-#FROM openjdk:8-jdk
+#FROM java:8
+FROM openjdk:8-jdk
 ENV SPRING_ACTIVE_PROFILE dev
 ADD target/cloud-movie-demo-0.0.1-SNAPSHOT.war app.war
 #ADD jennifer/agent.java agent.java
@@ -7,7 +7,7 @@ VOLUME /tmp
 VOLUME /target
 #RUN apt-get update && \
 #    apt-get install -y net-tools
-RUN bash -c 'touch /app.war'
+#RUN bash -c 'touch /app.war'
 CMD echo 'test'
 #EXPOSE 8081
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-Dspring.profiles.active=${SPRING_ACTIVE_PROFILE}", "-jar","/app.war"]
