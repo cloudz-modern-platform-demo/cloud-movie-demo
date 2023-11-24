@@ -5,6 +5,6 @@ metadata:
   namespace: zcp-demo
 data:
   SPRING_ACTIVE_PROFILE: stage 
-  MARIADB_HOST: bk-mariadb-mariadb.bk-service
+  MARIADB_HOST: bk-mariadb-mariadb.demo-system
   MARIADB_USER: zcp-user
-  REDIS_HOST: bk-redis-redis.bk-service
+  REDIS_HOST: bk-redis-redis.demo-system
